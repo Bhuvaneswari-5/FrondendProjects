@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add City</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <script>
+         var cities=[];
+        function bodyload()
+        {
+
+           for(var city of cities)
+             {
+                var opt= document.createElement("option");
+                opt.text=city;
+                opt.value=city;
+                document.getElementById("lblselectcity").appendChild(opt);
+            }
+            
+        }
+        function addnewcity()
+        {
+            var count=0;
+            document.getElementById("lblselectcity").innerHTML="";
+            var newcityvalue=document.getElementById("txtcity").value;
+            if(newcityvalue=="")
+            {
+                window.alert('please provide city name');
+                bodyload();
+            }
+            else{
+               if(cities.includes(newcityvalue))
+               {
+                window.alert('city exsit');
+                bodyload();
+                document.getElementById("txtcity").value="";
+               }
+               else{
+                cities.push(newcityvalue);
+                count=cities.length;
+                document.getElementById("counting").innerHTML=`No of Cities : ${count}`;
+                 window.alert(`${newcityvalue} added succesfully`);
+                 bodyload();
+                document.getElementById("txtcity").value="";
+               }
+               
+            }
+           
+        }
+        function deletecityclick()
+        {
+            var count=0;
+            var citytodelete=document.getElementById("lblselectcity").value;
+            var indexofcitytodelete=cities.indexOf(citytodelete);
+            if(indexofcitytodelete<0)
+            {
+                window.alert("Please Select A city");
+            }
+            else
+            {
+                var confirmResult =window.confirm(`Are You Sure You Want To Delete \n  ${citytodelete}`);
+                if(confirmResult)
+                {
+                    
+                    var city=cities.splice(indexofcitytodelete,1);
+                    window.alert(`${citytodelete} deleted successfully`);
+                    count=cities.length;
+                    document.getElementById("counting").innerHTML=`No of Cities : ${count}`;
+                    document.getElementById("lblselectcity").innerHTML="";
+                    bodyload();
+                }
+                else{
+                    document.getElementById("lblselectcity").innerHTML="";
+                    bodyload();
+                }
+            }
+         }
+         function sortupclick()
+         {
+            cities.sort();
+            document.getElementById("lblselectcity").innerHTML="";
+            bodyload();
+         }
+         function clearclick()
+         {
+            var count=0;
+            document.getElementById("lblselectcity").innerHTML="";
+            document.getElementById("counting").innerHTML=`No of Cities : ${count}`;
+         }
+         function sortdownclick()
+         {
+            cities.sort();
+            cities.reverse();
+            document.getElementById("lblselectcity").innerHTML="";
+            bodyload();
+         }
+    </script>
+</head>
+<body onload="bodyload()">
+    <script src="../../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <div class="container-fluid w-50 m-4">
+        <h1 class="justify-content-center">Add City :</h1>
+        <div class="input-group mb-4" >
+            <input type="text" class="form-control border-black" id="txtcity" placeholder="Please Enter City Name Here">
+            <button class="btn btn-primary" onclick="addnewcity()" onkeypress="addnewcity()">Click Here To Add</button>
+        </div>
+        <div>
+            <button class="btn btn-success bi bi-sort-alpha-down mb-3" onclick="sortupclick()"></button>
+            <button class="btn btn-success bi bi-sort-alpha-up mb-3" onclick="sortdownclick()"></button>
+            <select class="form-select" id="lblselectcity" size="3" style="text-transform:uppercase;">
+                
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-warning bi bi-trash-fill mt-3" onclick="deletecityclick()">Delete</button>
+            <button class="btn btn-danger bi bi-trash mt-3" onclick="clearclick()">Clear All</button>
+            <p id="counting" class="text-danger h3 mt-3"></p>
+        </div>
+        
+    </div>
+</body>
+</html>
